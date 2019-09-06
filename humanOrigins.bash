@@ -160,6 +160,8 @@ wc -l ~/dbs/humanOrigins/HumanOriginsAndPac2939-filt.{bim,fam}
 ### LD pruning ###
 ##################
 
+### 0.7 cut ###
+
 # this command determines the loci to keep or exclude
 time $plink2 --bfile HoPacAll --indep-pairwise 1000kb 0.7 --out HoPacAll
 # 24s on ideapad!
@@ -176,5 +178,46 @@ wc -l HoPacAll.bim
 # 588091
 wc -l HoPacAll_ld_prune_1000kb_0.7.bim 
 # 393280
-# c 393280/588091
+c 393280/588091
 # 0.668740041932286
+
+### 0.5 cut ###
+
+# run on a separate ocasion
+time $plink2 --bfile HoPacAll --indep-pairwise 1000kb 0.5 --out HoPacAll
+
+# this actually filters the data
+time $plink2 --bfile HoPacAll --extract HoPacAll.prune.in --make-bed --out HoPacAll_ld_prune_1000kb_0.5
+
+# cleanup
+rm HoPacAll.prune.{in,out} 
+rm HoPacAll.log HoPacAll_ld_prune_1000kb_0.5.log
+
+# a surprising amount of loci get eliminated!
+wc -l HoPacAll.bim
+# 588091
+wc -l HoPacAll_ld_prune_1000kb_0.5.bim 
+# 324756
+c 324756/588091
+# 0.552220659727831
+
+
+### 0.3 cut ###
+
+# run on a separate ocasion
+time $plink2 --bfile HoPacAll --indep-pairwise 1000kb 0.3 --out HoPacAll
+
+# this actually filters the data
+time $plink2 --bfile HoPacAll --extract HoPacAll.prune.in --make-bed --out HoPacAll_ld_prune_1000kb_0.3
+
+# cleanup
+rm HoPacAll.prune.{in,out} 
+rm HoPacAll.log HoPacAll_ld_prune_1000kb_0.3.log
+
+# a surprising amount of loci get eliminated!
+wc -l HoPacAll.bim
+# 588091
+wc -l HoPacAll_ld_prune_1000kb_0.3.bim 
+# 243136
+c 243136/588091
+# 0.413432615020465
