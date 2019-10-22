@@ -81,6 +81,30 @@ $plink2 --pfile all_phase3 vzs --keep all_phase3_YRI.psam --extract nodups.snpli
 zstdcat YRI.snplist.zst|wc -l
 # 20,417,484
 
+#############################
+### LWK/GWD ascertainment ###
+#############################
+
+# alternative choices for Bhatia comparisons, should be better than YRI ascertained on themselves.
+
+# sample filters, for ascertainment
+grep -P '\#|LWK' all_phase3.psam > all_phase3_LWK.psam # 99 individuals
+grep -P '\#|GWD' all_phase3.psam > all_phase3_GWD.psam # 113 individuals
+# get list of SNPs to use for ascertainment:
+
+# have to do this way...
+# first remove all duplicates (no other filters)
+$plink2 --pfile all_phase3 vzs --rm-dup exclude-all --write-snplist zs --out nodups
+# then remove those first, assert all other filters
+# desired individuals only, autosomes, SNPs only, biallelic, minimum one count (not fixed), write SNP list
+$plink2 --pfile all_phase3 vzs --keep all_phase3_LWK.psam --extract nodups.snplist.zst --autosome --snps-only just-acgt --max-alleles 2 --mac 1 --write-snplist zs --out LWK
+$plink2 --pfile all_phase3 vzs --keep all_phase3_GWD.psam --extract nodups.snplist.zst --autosome --snps-only just-acgt --max-alleles 2 --mac 1 --write-snplist zs --out GWD
+
+zstdcat LWK.snplist.zst|wc -l # 21468682
+zstdcat GWD.snplist.zst|wc -l # 21315588
+# both have more SNPs than YRI!
+
+
 ######################
 ### Bhatia subpops ###
 ######################
@@ -93,11 +117,20 @@ grep -P '\#|YRI|CEU|CHB' all_phase3.psam > all_phase3_Bhatia.psam
 # filter by samples and loci simultaneously, require again that loci are polymorphic within subset
 # convert to BED
 $plink2 --pfile all_phase3 vzs --keep all_phase3_Bhatia.psam --extract YRI.snplist.zst --mac 1 --make-bed --out Bhatia
+# alternative ascertainments
+$plink2 --pfile all_phase3 vzs --keep all_phase3_Bhatia.psam --extract LWK.snplist.zst --mac 1 --make-bed --out Bhatia-ascLWK
+$plink2 --pfile all_phase3 vzs --keep all_phase3_Bhatia.psam --extract GWD.snplist.zst --mac 1 --make-bed --out Bhatia-ascGWD
 
 # data dimensions
 wc -l Bhatia.{bim,fam}
 # 20417484 Bhatia.bim
 #      310 Bhatia.fam
+wc -l Bhatia-ascLWK.{bim,fam}
+# 16449760 Bhatia-ascLWK.bim
+#      310 Bhatia-ascLWK.fam
+wc -l Bhatia-ascGWD.{bim,fam}
+# 16487330 Bhatia-ascGWD.bim
+#      310 Bhatia-ascGWD.fam
 
 ###########
 ### AMR ###
@@ -177,16 +210,24 @@ rm all_phase3_AMR+panels.psam
 rm all_phase3_EUR.psam
 rm all_phase3_Bhatia.psam
 rm all_phase3_YRI.psam
+rm all_phase3_LWK.psam
+rm all_phase3_GWD.psam
 # plink2 log files
 rm YRI.log
+rm LWK.log
+rm GWD.log
 rm AMR-ascYRI.log
 rm AMR+panels-ascYRI-maf0.05.log
 rm EUR-ascYRI.log
 rm Bhatia.log
+rm Bhatia-ascLWK.log
+rm Bhatia-ascGWD.log
 rm nodups.log
-# random
+# SNP lists
 rm nodups.snplist.zst # list of unique (not duplicated) loci 
 rm YRI.snplist.zst # list of YRI loci to keep (ascertainment filter)
+rm LWK.snplist.zst # ditto
+rm GWD.snplist.zst # ditto
 
 ################
 ### ADD POPS ###
@@ -194,11 +235,17 @@ rm YRI.snplist.zst # list of YRI loci to keep (ascertainment filter)
 
 # fam data has trivial fam$fam == 0
 # replace here with subpopulation labels from main PSAM file
+Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam Bhatia.fam Bhatia.NEW.fam
+Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam Bhatia-ascLWK.fam Bhatia-ascLWK.NEW.fam
+Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam Bhatia-ascGWD.fam Bhatia-ascGWD.NEW.fam
 Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam AMR-ascYRI.fam AMR-ascYRI.NEW.fam
 Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam AMR+panels-ascYRI-maf0.05.fam AMR+panels-ascYRI-maf0.05.NEW.fam
 Rscript ~/docs/ochoalab/data/fam_add_pop_from_psam.R all_phase3.psam all_phase3_split.fam all_phase3_split.NEW.fam
 
 # overwrite after visually inspecting for correctness
+mv Bhatia.NEW.fam Bhatia.fam
+mv Bhatia-ascLWK.NEW.fam Bhatia-ascLWK.fam
+mv Bhatia-ascGWD.NEW.fam Bhatia-ascGWD.fam
 mv AMR-ascYRI.NEW.fam AMR-ascYRI.fam
 mv AMR+panels-ascYRI-maf0.05.NEW.fam AMR+panels-ascYRI-maf0.05.fam
 mv all_phase3_split.NEW.fam all_phase3_split.fam 
