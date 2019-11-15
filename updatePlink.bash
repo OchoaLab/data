@@ -8,7 +8,7 @@
 ##############
 
 # version date gets changed most often
-plink2Date="20190724" # "20190527" # "20190306"
+plink2Date="20191112" # "20190527" # "20190306" # "20190724"
 plink1Date="20190304"
 
 # destination of unzipped contents (binaries)
