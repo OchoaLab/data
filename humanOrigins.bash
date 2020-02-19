@@ -183,7 +183,7 @@ c 393280/588091
 
 ### 0.5 cut ###
 
-# run on a separate ocasion
+# this command determines the loci to keep or exclude
 time $plink2 --bfile HoPacAll --indep-pairwise 1000kb 0.5 --out HoPacAll
 
 # this actually filters the data
@@ -204,7 +204,7 @@ c 324756/588091
 
 ### 0.3 cut ###
 
-# run on a separate ocasion
+# this command determines the loci to keep or exclude
 time $plink2 --bfile HoPacAll --indep-pairwise 1000kb 0.3 --out HoPacAll
 
 # this actually filters the data
