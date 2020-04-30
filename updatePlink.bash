@@ -52,6 +52,8 @@ function updatePlink1 {
     # unzip it
     # NOTE: plink1 comes with several files, the below command ensures they're all in a single directory called "plink1/"
     unzip -d plink1/ $plink1File
+    # remove original dir (or next step fails)
+    rm -r $binDir/plink1/
     # move plink1/ to binary dir
     mv plink1/ $binDir
     # move ZIP to archival location
