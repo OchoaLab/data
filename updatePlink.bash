@@ -8,8 +8,8 @@
 ##############
 
 # version date gets changed most often
-plink2Date="20200409" # "20200217" # "20191112" # "20190527" # "20190306" # "20190724"
-plink1Date="20200428" # "20190304"
+plink2Date="20200727"
+plink1Date="20200428"
 
 # destination of unzipped contents (binaries)
 binDir="$HOME/bin/"
