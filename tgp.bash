@@ -249,3 +249,33 @@ mv Bhatia-ascGWD.NEW.fam Bhatia-ascGWD.fam
 mv AMR-ascYRI.NEW.fam AMR-ascYRI.fam
 mv AMR+panels-ascYRI-maf0.05.NEW.fam AMR+panels-ascYRI-maf0.05.fam
 mv all_phase3_split.NEW.fam all_phase3_split.fam 
+
+##################
+### LD pruning ###
+##################
+
+### 0.3 cut ###
+
+name=all_phase3_filt-minimal
+
+# this command determines the loci to keep or exclude
+time $plink2 --bfile $name --indep-pairwise 1000kb 0.3 --out $name
+# real    10677m37.669s viiiaX6
+# user    33564m4.788s
+# sys     6m59.842s
+
+# this actually filters the data
+time $plink2 --bfile $name --extract $name.prune.in --make-bed --out $name"_ld_prune_1000kb_0.3"
+# 11m53.241s viiiaX6
+
+# cleanup
+rm $name.prune.{in,out} 
+rm $name.log $name"_ld_prune_1000kb_0.3.log"
+
+# lots of loci get eliminated, but fewer than HGDP
+wc -l $name.bim
+# 77513663
+wc -l $name"_ld_prune_1000kb_0.3.bim"
+# 10615978
+c 10615978/77513663
+# 0.136956216351174
