@@ -279,3 +279,24 @@ wc -l $name"_ld_prune_1000kb_0.3.bim"
 # 10615978
 c 10615978/77513663
 # 0.136956216351174
+
+################
+### THINNING ###
+################
+
+# additional thinning for PCA benchmark
+# this reduces file size tenfold
+# now input is LD-pruned version
+name=$name"_ld_prune_1000kb_0.3"
+time $plink2 --bfile $name --thin 0.1 --make-bed --out $name"_thinned-0.1"
+# 1m46.333s ideapad
+
+# cleanup
+rm $name"_thinned-0.1.log"
+
+wc -l $name.bim
+# 10615978
+wc -l $name"_thinned-0.1".bim
+# 1058916
+c 1058916/10615978
+# 0.0997473807877145 # pretty good, on target
