@@ -280,6 +280,28 @@ wc -l $name"_ld_prune_1000kb_0.3.bim"
 c 10615978/77513663
 # 0.136956216351174
 
+
+##################
+### MAF 1% cut ###
+##################
+
+# start from LD pruned data
+name="all_phase3_filt-minimal_ld_prune_1000kb_0.3"
+
+time $plink2 --bfile $name --maf 0.01 --make-bed --out $name"_maf-0.01"
+# 0m50.782s
+
+# cleanup
+rm $name"_maf-0.01".log
+
+wc -l $name.bim
+# 10615978
+wc -l $name"_maf-0.01".bim
+# 1185208
+c 1185208/10615978
+# 0.111643788259546
+
+
 ################
 ### THINNING ###
 ################
