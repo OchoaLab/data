@@ -221,3 +221,23 @@ wc -l HoPacAll_ld_prune_1000kb_0.3.bim
 # 243136
 c 243136/588091
 # 0.413432615020465
+
+##################
+### MAF 1% cut ###
+##################
+
+# start from LD pruned data
+name="HoPacAll_ld_prune_1000kb_0.3"
+
+time $plink2 --bfile $name --maf 0.01 --make-bed --out $name"_maf-0.01"
+# 0m2.606s ideapad
+
+# cleanup
+rm $name"_maf-0.01".log
+
+wc -l $name.bim
+# 243136
+wc -l $name"_maf-0.01".bim
+# 190394
+c 190394/243136
+# 0.783076138457489
