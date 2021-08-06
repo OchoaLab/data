@@ -8,8 +8,8 @@
 ##############
 
 # version date gets changed most often
-plink2Date="20200727"
-plink1Date="20200428"
+plink2Date="20210804"
+plink1Date="20210606"
 
 # destination of unzipped contents (binaries)
 binDir="$HOME/bin/"
@@ -20,8 +20,7 @@ srcDir="$HOME/bin/src/"
 # other variables that might be configured
 
 # download ZIP name, specific to Linux x86_64!
-plink2File="plink2_linux_x86_64_$plink2Date.zip" # only this one works on viiiaX6
-#plink2File="plink2_linux_avx2_$plink2Date.zip" # this one also works (labbyDuke and ideapad), is better but for those cases only!
+plink2File="plink2_linux_avx2_$plink2Date.zip"
 plink1File="plink_linux_x86_64_$plink1Date.zip"
 
 # full download URL
