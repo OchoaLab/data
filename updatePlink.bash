@@ -49,12 +49,12 @@ function updatePlink1 {
     # download ZIP file
     wget $plink1URL
     # unzip it
-    # NOTE: plink1 comes with several files, the below command ensures they're all in a single directory called "plink1/"
-    unzip -d plink1/ $plink1File
-    # remove original dir (or next step fails)
-    rm -r $binDir/plink1/
-    # move plink1/ to binary dir
-    mv plink1/ $binDir
+    # NOTE: plink1 comes with several files, the below command ensures they're all in a single directory called "plink1-tmp/"
+    unzip -d plink1-tmp/ $plink1File
+    # move only plink1/plink to binary dir and rename it plink1
+    mv plink1-tmp/plink $binDir/plink1
+    # remove rest of dir, no other files needed
+    rm -r plink1-tmp/
     # move ZIP to archival location
     mv $plink1File $srcDir
 }
