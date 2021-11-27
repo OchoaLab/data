@@ -210,15 +210,14 @@ rm $name_AMRp.log
 # this command determines the loci to keep or exclude
 time plink2 --bfile $name --indep-pairwise 1000kb 0.3 --out $name
 sbatch -p biostat ld-prune-tgp-nygc.q # on DCC
-# DCC 4 threads
-# 423m2.773s/2504m42.859s (real/user) # viiiaR5 (7h) HGDP!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# 11579m15.096s/24685m33.838s DCC 4 threads
 wc -l $name.prune.in
-# 3,567,128
+# 9,924,369
 
 # this actually filters the data
 name_ld=$name"_ld_prune_1000kb_0.3"
 time plink2 --bfile $name --extract $name.prune.in --make-bed --out $name_ld
-# 2m50.058s viiiaR5
+# 5m54.555s viiiaR5
 
 # cleanup
 rm $name.prune.{in,out} 
@@ -226,11 +225,11 @@ rm $name.log $name_ld.log
 
 # a surprising amount of loci get eliminated!
 wc -l $name.bim
-# 63540915
+# 91784660
 wc -l $name_ld.bim
-# 3567128
-c 3567128/63540915
-# 0.0561390719664644
+# 9924369
+c 9924369/91784660
+# 0.108126662995756
 
 
 ##################
@@ -240,14 +239,14 @@ c 3567128/63540915
 # start from LD pruned data
 name_ld_maf=$name_ld"_maf-0.01"
 time plink2 --bfile $name_ld --maf 0.01 --make-bed --out $name_ld_maf
-# 0m6.299s viiiaR5
+# 0m34.514s viiiaR5
 
 # cleanup
 rm $name_ld_maf.log
 
 wc -l $name_ld.bim
-# 3567128
+# 9924369
 wc -l $name_ld_maf.bim
-# 924892
-c 924892/3567128
-# 0.259281976985407
+# 1111266
+c 1111266/9924369
+# 0.111973466524673
