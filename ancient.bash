@@ -82,6 +82,24 @@ rm v50.0_HO_public-diff.*
 # can re-evaluate after zeroing in on a given locus, but might want to replace those samples to have more loci
 Rscript ancient02-vs-hgdp-tgp-wgs.R
 
+# this identifies lots of individuals to remove for various reasons
+time Rscript ancient03-inds-filt.R
+# 14313	Original
+# 14016	Rm questionable
+# 13624	Rm ignore
+# 13609	Rm outlier
+# 13488	Rm brother|sister|sibling
+# 13405	Rm son|daughter|child
+# 13378	Rm father|mother
+# 13376	Rm relative
+# 13279	Rm .rel.
+# 13277	Rm _rel
+# 11830	Rm repeats
+# real	0m0.778s
+
+# TODO: create data that is actually filtered!
+
+
 
 
 ### LIFTOVER hg38 ###
