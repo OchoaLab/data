@@ -83,6 +83,7 @@ rm v50.0_HO_public-diff.*
 Rscript ancient02-vs-hgdp-tgp-wgs.R
 
 # this identifies lots of individuals to remove for various reasons
+# also fixes a small issue with FAM file
 time Rscript ancient03-inds-filt.R
 # 14313	Original
 # 14016	Rm questionable
@@ -97,7 +98,39 @@ time Rscript ancient03-inds-filt.R
 # 11830	Rm repeats
 # real	0m0.778s
 
-# TODO: create data that is actually filtered!
+# replace FAMs as needed
+# this one is trivial (keep original though)
+mv v50.0_HO_public.fam v50.0_HO_public_ORIG.fam
+mv v50.0_HO_public_FIXED.fam v50.0_HO_public.fam
+# this fixes the merged datasets: problem is that their IDs are re-sorted
+time Rscript ancient04-fix-fam-merged.R
+# 0m0.525s
+# direct replace here
+# no need for keeping originals now because these were derived
+mv v50_FIXED.fam v50.fam
+
+# create data that is actually filtered!
+time plink2 --bfile v50.0_HO_public --keep inds-keep.fam --autosome --make-bed --out v50.0_HO_public_ind-filt_autosomes
+# 0m15.387s
+
+wc -l v50.0_HO_public_ind-filt_autosomes.{bim,fam}
+# 593124 v50.0_HO_public_ind-filt_autosomes.bim
+#  11830 v50.0_HO_public_ind-filt_autosomes.fam
+
+
+### AFR filter ###
+
+# create filtered FAM using annotations, a list of AFR countries created by hand (african-countries.txt)
+time Rscript ancient05-filt-afr.R
+# 0m0.554s
+
+# create filtered file (HO loci, for global ancestry analysis)
+time plink2 --bfile v50.0_HO_public_ind-filt_autosomes --keep v50.0_HO_public_AFR.fam --make-bed --out v50.0_HO_public_ind-filt_autosomes_AFR
+# 0m4.306s
+
+wc -l v50.0_HO_public_ind-filt_autosomes_AFR.{bim,fam}
+# 593124 v50.0_HO_public_ind-filt_autosomes_AFR.bim
+#    975 v50.0_HO_public_ind-filt_autosomes_AFR.fam
 
 
 

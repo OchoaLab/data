@@ -182,6 +182,7 @@ message( nrow( data ), "\tRm repeats" )
 
 # the end!  Write file with ids to keep, to filter data with plink
 write_lines( fam$id, 'inds-keep.txt' )
+write_fam( 'inds-keep', fam ) # FAM version, I was having weird problems with list only
 
 # write filtered copy for further analysis
 write_tsv( data, 'v50.0_HO_public_ind-filt.anno' )
