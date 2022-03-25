@@ -10,3 +10,5 @@ Noteworthy instruction files:
 - [Allen Ancient DNA resource](ancient.bash)
 
 Some of the rest of the files are a bit of a dump and may be obsolete (i.e. other 1000 genomes versions) but are retained as the commands remain useful and/or for reference.
+
+This repository doesn't contain data, just code.
