@@ -125,13 +125,16 @@ time Rscript ancient05-filt-afr.R
 # 0m0.554s
 
 # create filtered file (HO loci, for global ancestry analysis)
-time plink2 --bfile v50.0_HO_public_ind-filt_autosomes --keep v50.0_HO_public_AFR.fam --make-bed --out v50.0_HO_public_ind-filt_autosomes_AFR
+time plink2 --bfile v50.0_HO_public_ind-filt_autosomes --keep v50.0_HO_public_ind-filt_autosomes_AFR-filt.fam --make-bed --out v50.0_HO_public_ind-filt_autosomes_AFR
 # 0m4.306s
 
 wc -l v50.0_HO_public_ind-filt_autosomes_AFR.{bim,fam}
 # 593124 v50.0_HO_public_ind-filt_autosomes_AFR.bim
 #    975 v50.0_HO_public_ind-filt_autosomes_AFR.fam
 
+# cleanup
+diff -q v50.0_HO_public_ind-filt_autosomes_AFR{,-filt}.fam # these are identical
+rm v50.0_HO_public_ind-filt_autosomes_AFR-filt.fam
 
 
 
