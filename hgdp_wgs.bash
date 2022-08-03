@@ -154,3 +154,26 @@ wc -l $name"_maf-0.01".bim
 # 924892
 c 924892/3567128
 # 0.259281976985407
+
+
+###################
+### MISSINGNESS ###
+###################
+
+# start from most filtered data
+name="hgdp_wgs_autosomes_ld_prune_1000kb_0.3_maf-0.01"
+name_out=$name"_geno-0.1"
+
+# apply geno filter, which is most severe in this dataset than all other comparable ones
+time plink2 --bfile $name --geno 0.1 --make-bed --out $name_out
+# 0m2.047s viiiaR5
+
+# cleanup
+rm $name_out.log
+
+wc -l $name.bim
+# 924892
+wc -l $name_out.bim
+# 771322
+c 771322/924892
+# 0.833958991968792
