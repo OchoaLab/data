@@ -8,7 +8,7 @@
 ##############
 
 # version date gets changed most often
-plink2Date="20230516"
+plink2Date="20240504"
 plink1Date="20210606"
 
 # destination of unzipped contents (binaries)
