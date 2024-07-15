@@ -1,8 +1,7 @@
 library(genio)
 library(readr)
 
-# go where the data is
-setwd( '/scratch1/dbs2/tgp-nygc' )
+# run where the data is!
 
 # load two seemingly redundant sources of info
 data1 <- read_table('1kGP.3202_samples.pedigree_info.txt') # smaller but newer table
