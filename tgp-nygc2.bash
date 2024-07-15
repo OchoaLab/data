@@ -92,6 +92,15 @@ for chr in {1..22}; do
 done
 rm files-merge-list.txt
 
+# this confirms that there's no missingness in this data!
+time plink2 --pfile $name vzs --missing sample-only --out $name --memory 7000 --threads 1
+# 1m20.576s dell-xps
+# confirm by inspection that every sample has MISSING_CT = F_MISS = 0
+less $name.smiss
+# cleanup
+rm $name.{smiss,log}
+
+
 ################
 ### MAKE BED ###
 ################
